@@ -104,7 +104,8 @@ AM_CFLAGS_PIC = -dynamic -O -g -fno-omit-frame-pointer -fno-strict-aliasing \
 		-fno-builtin
 else
 AM_CFLAGS_PIC = -fpic -O -g -fno-omit-frame-pointer -fno-strict-aliasing \
-		-fno-builtin
+		-fno-builtin -shared
+# Athul.M.A inserted shared flag
 endif
 
 
@@ -180,6 +181,12 @@ AM_FLAG_M3264_MIPS64_LINUX = @FLAG_M64@
 AM_CFLAGS_MIPS64_LINUX     = @FLAG_M64@ $(AM_CFLAGS_BASE) -mips64
 AM_CCASFLAGS_MIPS64_LINUX  = @FLAG_M64@ -mips64 -g
 
+# Athul.M.A
+AM_CFLAGS_X86_GNU       = @FLAG_M32@  @PREFERRED_STACK_BOUNDARY@ \
+				$(AM_CFLAGS_BASE) -fomit-frame-pointer -shared
+AM_CCASFLAGS_X86_GNU    = @FLAG_M32@ -g
+
+# end
 # Flags for the primary target.  These must be used to build the
 # regtests and performance tests.  In fact, these must be used to
 # build anything which is built only once on a dual-arch build.

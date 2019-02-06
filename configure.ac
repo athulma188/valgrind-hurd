@@ -135,7 +135,10 @@ case "${is_clang}-${gcc_version}" in
      notclang-3.*)
 	AC_MSG_RESULT([ok (${gcc_version})])
 	;;
-     notclang-4.*)
+     # Revision 1
+     # Author - Athul.M.A
+     # Changed notclang-4 to notclang-6 to enable support for latest gcc
+     notclang-6.*)
 	AC_MSG_RESULT([ok (${gcc_version})])
 	;;
      clang-2.9|clang-3.*|clang-4.*)
@@ -801,15 +804,19 @@ AC_SUBST(DEFAULT_SUPP)
 
 AC_CHECK_HEADER([features.h])
 
+# Revision 2
+# Author - Athul.M.A
+# Modified the snippet to fetch glibc version
+
 if test x$ac_cv_header_features_h = xyes; then
   rm -f conftest.$ac_ext
   cat <<_ACEOF >conftest.$ac_ext
 #include <features.h>
 #if defined(__GNU_LIBRARY__) && defined(__GLIBC__) && defined(__GLIBC_MINOR__)
-glibc version is: __GLIBC__ __GLIBC_MINOR__
+__GLIBC__ __GLIBC_MINOR__
 #endif
 _ACEOF
-  GLIBC_VERSION="`$CPP conftest.$ac_ext | $SED -n 's/^glibc version is: //p' | $SED 's/ /./g'`"
+  GLIBC_VERSION="`$CPP conftest.$ac_ext | $SED '$!d' | $SED 's/ /./g'`"
 fi
 
 # not really a version check
@@ -831,7 +838,6 @@ GLIBC_VERSION="bionic")
 
 
 AC_MSG_CHECKING([the GLIBC_VERSION version])
-
 case "${GLIBC_VERSION}" in
      2.2)
 	AC_MSG_RESULT(2.2 family)
@@ -951,6 +957,13 @@ case "${GLIBC_VERSION}" in
      2.18)
 	AC_MSG_RESULT(2.18 family)
 	AC_DEFINE([GLIBC_2_18], 1, [Define to 1 if you're using glibc 2.18.x])
+	DEFAULT_SUPP="glibc-2.X.supp ${DEFAULT_SUPP}"
+	DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
+	DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
+	;;
+     2.27)
+	AC_MSG_RESULT(2.18 family)
+	AC_DEFINE([GLIBC_2_27], 1, [Define to 1 if you're using glibc 2.27.x])
 	DEFAULT_SUPP="glibc-2.X.supp ${DEFAULT_SUPP}"
 	DEFAULT_SUPP="glibc-2.34567-NPTL-helgrind.supp ${DEFAULT_SUPP}"
 	DEFAULT_SUPP="glibc-2.X-drd.supp ${DEFAULT_SUPP}"
@@ -2477,6 +2490,11 @@ AM_COND_IF([VGCONF_OS_IS_LINUX],
 AM_COND_IF([VGCONF_OS_IS_DARWIN],
            [CFLAGS_MPI="-g -O -fno-omit-frame-pointer -Wall -dynamic"
             LDFLAGS_MPI="-dynamic -dynamiclib -all_load"])
+## Athul.M.A
+
+#AM_COND_IF([VGCONF_OS_IS_GNU],
+	   #[CFLAGS_MPI="-g -O -fno-omit-frame-pointer -Wall -fpic"
+           # LDFLAGS_MPI="-fpic -shared"])
 
 AC_SUBST([CFLAGS_MPI])
 AC_SUBST([LDFLAGS_MPI])

@@ -1,6 +1,7 @@
 
-SUBDIRS = . tests
-
+#Athul.M.A
+# SUBDIRS = . tests
+# end
 include $(top_srcdir)/Makefile.all.am
 
 #----------------------------------------------------------------------------
@@ -37,6 +38,11 @@ TOOL_LDFLAGS_COMMON_LINUX = \
 TOOL_LDFLAGS_COMMON_DARWIN = \
 	-nodefaultlibs -nostartfiles -Wl,-u,__start -Wl,-e,__start
 
+# Athul.M.A
+TOOL_LDFLAGS_COMMON_GNU = \
+	-static -nodefaultlibs -nostartfiles -u _start @FLAG_NO_BUILD_ID@
+#end
+
 TOOL_LDFLAGS_X86_LINUX = \
 	$(TOOL_LDFLAGS_COMMON_LINUX) @FLAG_M32@
 
@@ -69,6 +75,12 @@ TOOL_LDFLAGS_MIPS32_LINUX = \
 TOOL_LDFLAGS_MIPS64_LINUX = \
 	-static -nodefaultlibs -nostartfiles -u __start @FLAG_NO_BUILD_ID@ \
 	@FLAG_M64@
+# Athul.M.A
+TOOL_LDFLAGS_X86_GNU = \
+	$(TOOL_LDFLAGS_COMMON_GNU) @FLAG_M32@
+
+#end
+
 
 # On Android we must ask for non-executable stack, not sure why.
 if VGCONF_PLATFORMS_INCLUDE_ARM_LINUX
