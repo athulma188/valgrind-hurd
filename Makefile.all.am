@@ -104,7 +104,7 @@ AM_CFLAGS_PIC = -dynamic -O -g -fno-omit-frame-pointer -fno-strict-aliasing \
 		-fno-builtin
 else
 AM_CFLAGS_PIC = -fpic -O -g -fno-omit-frame-pointer -fno-strict-aliasing \
-		-fno-builtin -shared
+		-fno-builtin
 # Athul.M.A inserted shared flag
 endif
 
@@ -182,8 +182,9 @@ AM_CFLAGS_MIPS64_LINUX     = @FLAG_M64@ $(AM_CFLAGS_BASE) -mips64
 AM_CCASFLAGS_MIPS64_LINUX  = @FLAG_M64@ -mips64 -g
 
 # Athul.M.A
+AM_FLAG_M3264_X86_GNU   = @FLAG_M32@
 AM_CFLAGS_X86_GNU       = @FLAG_M32@  @PREFERRED_STACK_BOUNDARY@ \
-				$(AM_CFLAGS_BASE) -fomit-frame-pointer -shared
+				$(AM_CFLAGS_BASE) -fomit-frame-pointer
 AM_CCASFLAGS_X86_GNU    = @FLAG_M32@ -g
 
 # end
@@ -216,6 +217,9 @@ PRELOAD_LDFLAGS_COMMON_LINUX += -nostdlib
 endif
 
 PRELOAD_LDFLAGS_X86_LINUX    = $(PRELOAD_LDFLAGS_COMMON_LINUX) @FLAG_M32@
+# Athul.M.A
+PRELOAD_LDFLAGS_X86_GNU    = $(PRELOAD_LDFLAGS_COMMON_LINUX) @FLAG_M32@
+# end
 PRELOAD_LDFLAGS_AMD64_LINUX  = $(PRELOAD_LDFLAGS_COMMON_LINUX) @FLAG_M64@
 PRELOAD_LDFLAGS_PPC32_LINUX  = $(PRELOAD_LDFLAGS_COMMON_LINUX) @FLAG_M32@
 PRELOAD_LDFLAGS_PPC64_LINUX  = $(PRELOAD_LDFLAGS_COMMON_LINUX) @FLAG_M64@

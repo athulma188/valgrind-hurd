@@ -3,7 +3,7 @@ AUTOMAKE_OPTIONS = foreign 1.10 dist-bzip2
 
 include $(top_srcdir)/Makefile.all.am 
 
-TOOLS =		memcheck 
+TOOLS =		memcheck \
 		cachegrind \
 		callgrind \
 		massif \
