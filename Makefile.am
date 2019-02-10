@@ -3,7 +3,7 @@ AUTOMAKE_OPTIONS = foreign 1.10 dist-bzip2
 
 include $(top_srcdir)/Makefile.all.am 
 
-TOOLS =		memcheck \
+TOOLS =		memcheck 
 		cachegrind \
 		callgrind \
 		massif \
@@ -18,6 +18,13 @@ EXP_TOOLS = 	exp-sgcheck \
 
 # Put docs last because building the HTML is slow and we want to get
 # everything else working before we try it.
+
+# Athul.M.A
+# removed 
+# "tests \" 
+# "gdbserver_tests \"
+# "auxprogs \"
+# "memcheck/tests/vbit-test" after perf \ on 07/02/2019
 SUBDIRS = \
 	include \
 	VEX \
@@ -25,11 +32,7 @@ SUBDIRS = \
 	. \
 	$(TOOLS) \
 	$(EXP_TOOLS) \
-	tests \
 	perf \
-	gdbserver_tests \
-	memcheck/tests/vbit-test \
-	auxprogs \
 	mpi \
 	docs
 DIST_SUBDIRS  = $(SUBDIRS)
