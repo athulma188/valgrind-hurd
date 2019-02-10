@@ -46,16 +46,22 @@
 #include "pub_core_clreq.h"
 #include "pub_core_debuginfo.h"  // Needed for pub_core_redir.h
 #include "pub_core_redir.h"      // For VG_NOTIFY_ON_LOAD
-
+/* Athul.M.A
 #if defined(VGO_linux)
+end
+*/
+
+#if defined(VGO_linux) || defined(VGO_gnu)
 
 /* ---------------------------------------------------------------------
    Hook for running __libc_freeres once the program exits.
    ------------------------------------------------------------------ */
-
 void VG_NOTIFY_ON_LOAD(freeres)( void );
 void VG_NOTIFY_ON_LOAD(freeres)( void )
 {
+    // Athul.M.A
+    mach_print("on load freeres");
+    //end
 #  if !defined(__UCLIBC__) \
    && !defined(VGPV_arm_linux_android) && !defined(VGPV_x86_linux_android)
    extern void __libc_freeres(void);
@@ -74,6 +80,9 @@ void VG_NOTIFY_ON_LOAD(freeres)( void )
 void * VG_NOTIFY_ON_LOAD(ifunc_wrapper) (void);
 void * VG_NOTIFY_ON_LOAD(ifunc_wrapper) (void)
 {
+    // Athul.M.A
+    mach_print("on load ifunc");
+    //end
     OrigFn fn;
     Addr result = 0;
 
@@ -179,7 +188,7 @@ void VG_REPLACE_FUNCTION_ZU(libSystemZdZaZddylib, arc4random_addrandom)(unsigned
 
 #elif defined(VGO_gnu)
 
-I_die_here;
+ I_die_here;
 
 #else
 

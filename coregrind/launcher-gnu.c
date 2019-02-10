@@ -209,6 +209,10 @@ int main(int argc, char** argv, char** envp)
    char* new_line;
    char** new_env;
 
+   // Athul.M.A
+   mach_print("main entered");
+   // end
+
    /* Start the debugging-log system ASAP.  First find out how many 
       "-d"s were specified.  This is a pre-scan of the command line.
       At the same time, look for the tool name. */
