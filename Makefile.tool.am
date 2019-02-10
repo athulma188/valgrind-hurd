@@ -104,7 +104,10 @@ endif
 
 LIBREPLACEMALLOC_X86_LINUX = \
 	$(top_builddir)/coregrind/libreplacemalloc_toolpreload-x86-linux.a
-
+# Athul.M.A
+LIBREPLACEMALLOC_X86_GNU = \
+	$(top_builddir)/coregrind/libreplacemalloc_toolpreload-x86-gnu.a
+# end
 LIBREPLACEMALLOC_AMD64_LINUX = \
 	$(top_builddir)/coregrind/libreplacemalloc_toolpreload-amd64-linux.a
 
@@ -136,6 +139,13 @@ LIBREPLACEMALLOC_LDFLAGS_X86_LINUX = \
 	-Wl,--whole-archive \
 	$(LIBREPLACEMALLOC_X86_LINUX) \
 	-Wl,--no-whole-archive
+
+# Athul.M.A
+LIBREPLACEMALLOC_LDFLAGS_X86_GNU = \
+	-Wl,--whole-archive \
+	$(LIBREPLACEMALLOC_X86_GNU) \
+	-Wl,--no-whole-archive
+# end
 
 LIBREPLACEMALLOC_LDFLAGS_AMD64_LINUX = \
 	-Wl,--whole-archive \
