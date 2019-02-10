@@ -27,7 +27,6 @@
    The GNU General Public License is contained in the file COPYING.
 */
 
-
 #ifndef __VKI_GNU_H
 #define __VKI_GNU_H
 
@@ -352,6 +351,7 @@
    #define vki_sigset_t __sigset_t
    we do:
  */
+
 typedef struct {
    unsigned long int sig[_VKI_NSIG_WORDS];
 } vki_sigset_t;
@@ -479,6 +479,8 @@ typedef  struct vki_sigaction_base  vki_sigaction_fromK_t;
 #define VKI_BUS_ADRALN	BUS_ADRALN
 #define VKI_BUS_ADRERR	BUS_ADRERR
 #define VKI_BUS_OBJERR	BUS_OBJERR
+
+#include <i386-gnu/bits/siginfo-consts.h>
 
 #define VKI_TRAP_BRKPT	TRAP_BRKPT
 #define VKI_TRAP_TRACE	TRAP_TRACE
@@ -750,7 +752,7 @@ typedef  struct vki_sigaction_base  vki_sigaction_fromK_t;
 
 #include <i386-gnu/sys/ucontext.h>
 
-#define vki_ucontext ucontext
+#define vki_ucontext ucontext_t
 
 
 #include<netinet/tcp.h>
