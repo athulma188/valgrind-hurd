@@ -38,7 +38,9 @@
 
 #include "priv_aspacemgr.h"
 #include "config.h"
-
+// Athul.M.A
+#include "pub_core_libcassert.h"
+//end 
 
 /*-----------------------------------------------------------------*/
 /*---                                                           ---*/

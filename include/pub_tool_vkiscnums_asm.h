@@ -61,7 +61,7 @@
 #  include "vki/vki-scnums-darwin.h"
 
 #elif defined(VGP_x86_gnu)
-#  include "vki/vki-scnums-gnu.h"
+#  include "vki/vki-scnums-x86-gnu.h"
 
 #else
 #  error Unknown platform

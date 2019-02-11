@@ -251,6 +251,11 @@ if VGCONF_HAVE_PLATFORM_SEC
 pkglib_LIBRARIES += libcoregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
 endif
 
+
+# Athul.M.A
+# Added m_sigframe/sigframe-x86-gnu.c 
+# Added m_syswrap/syscall-x86-gnu.S
+# Added m_dispatch/dispatch-x86-gnu.S \
 COREGRIND_SOURCES_COMMON = \
 	m_cache.c \
 	m_commandline.c \
@@ -322,6 +327,7 @@ COREGRIND_SOURCES_COMMON = \
 	m_dispatch/dispatch-s390x-linux.S \
 	m_dispatch/dispatch-mips32-linux.S \
 	m_dispatch/dispatch-mips64-linux.S \
+	m_dispatch/dispatch-x86-gnu.S \
 	m_dispatch/dispatch-x86-darwin.S \
 	m_dispatch/dispatch-amd64-darwin.S \
 	m_gdbserver/inferiors.c \
@@ -361,6 +367,7 @@ COREGRIND_SOURCES_COMMON = \
 	m_sigframe/sigframe-s390x-linux.c \
 	m_sigframe/sigframe-mips32-linux.c \
 	m_sigframe/sigframe-mips64-linux.c \
+	m_sigframe/sigframe-x86-gnu.c \
 	m_sigframe/sigframe-x86-darwin.c \
 	m_sigframe/sigframe-amd64-darwin.c \
 	m_syswrap/syscall-x86-linux.S \
@@ -371,6 +378,7 @@ COREGRIND_SOURCES_COMMON = \
 	m_syswrap/syscall-s390x-linux.S \
 	m_syswrap/syscall-mips32-linux.S \
 	m_syswrap/syscall-mips64-linux.S \
+	m_syswrap/syscall-x86-gnu.S
 	m_syswrap/syscall-x86-darwin.S \
 	m_syswrap/syscall-amd64-darwin.S \
 	m_syswrap/syswrap-main.c \
@@ -393,6 +401,7 @@ COREGRIND_SOURCES_COMMON = \
 	m_ume/macho.c \
 	m_ume/main.c \
 	m_ume/script.c
+# end
 
 libcoregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_SOURCES = \
     $(COREGRIND_SOURCES_COMMON)

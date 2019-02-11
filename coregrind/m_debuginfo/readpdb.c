@@ -34,8 +34,11 @@
 
    The GNU General Public License is contained in the file COPYING.
 */
-
+/* Athul.M.A
 #if defined(VGO_linux) || defined(VGO_darwin)
+*/
+#if defined(VGO_linux) || defined(VGO_darwin)|| defined(VGO_gnu)
+// end
 
 #include "pub_core_basics.h"
 #include "pub_core_debuginfo.h"

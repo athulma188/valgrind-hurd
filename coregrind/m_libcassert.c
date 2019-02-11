@@ -203,10 +203,29 @@
         (srP)->misc.MIPS64.r28 = (ULong)gp;               \
       }
 #elif defined(VGP_x86_gnu)
+/* Athul.M.A 
    static void a_function()
       {
         vg_assert(0);
       }
+*/
+
+#  define GET_STARTREGS(srP)                              \
+      { UInt eip, esp, ebp;                               \
+        __asm__ __volatile__(                             \
+           "call 0f;"                                     \
+           "0: popl %0;"                                  \
+           "movl %%esp, %1;"                              \
+           "movl %%ebp, %2;"                              \
+           : "=r" (eip), "=r" (esp), "=r" (ebp)           \
+           : /* reads none */                             \
+           : "memory"                                     \
+        );                                                \
+        (srP)->r_pc = (ULong)eip;                         \
+        (srP)->r_sp = (ULong)esp;                         \
+        (srP)->misc.X86.r_ebp = ebp;                      \
+      }
+// end
 #else
 #  error Unknown platform
 #endif

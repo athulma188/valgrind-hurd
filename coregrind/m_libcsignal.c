@@ -499,10 +499,18 @@ Int VG_(sigtimedwait_zero)( const vki_sigset_t *set,
 }
 
 #elif defined(VGO_gnu)
+/* Athul.M.A
 static void afunction()
 {
   vg_assert(0);
 }
+*/
+Int VG_(sigtimedwait_zero)( const vki_sigset_t *set, 
+                            vki_siginfo_t *info )
+{
+    vg_assert(0);
+}
+// end
 #else
 #  error "Unknown OS"
 #endif

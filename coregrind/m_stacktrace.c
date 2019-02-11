@@ -79,7 +79,10 @@
 
 /* ------------------------ x86 ------------------------- */
 
-#if defined(VGP_x86_linux) || defined(VGP_x86_darwin)
+// Athul.M.A
+// #if defined(VGP_x86_linux) || defined(VGP_x86_darwin)
+#if defined(VGP_x86_linux) || defined(VGP_x86_darwin)|| defined(VGP_x86_gnu)
+//end 
 
 #define N_FP_CF_VERIF 1021
 // prime number so that size of fp_CF_verif is just below 4K or 8K

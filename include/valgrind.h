@@ -985,8 +985,11 @@ typedef
         CALL_FN_W_7W(_junk,fnptr,arg1,arg2,arg3,arg4,arg5,arg6,arg7); } while (0)
 
 /* ------------------------- x86-{linux,darwin} ---------------- */
-
+   /* Athul.M.A
 #if defined(PLAT_x86_linux)  ||  defined(PLAT_x86_darwin)
+
+end */
+#if defined(PLAT_x86_linux)  ||  defined(PLAT_x86_darwin) || defined(PLAT_x86_gnu)
 
 /* These regs are trashed by the hidden call.  No need to mention eax
    as gcc can already see that, plus causes gcc to bomb. */
@@ -5416,6 +5419,9 @@ VALGRIND_PRINTF_BACKTRACE(const char *format, ...)
 #undef PLAT_x86_win32
 #undef PLAT_amd64_win64
 #undef PLAT_x86_linux
+// Athul.M.A
+#undef PLAT_x86_gnu
+// end
 #undef PLAT_amd64_linux
 #undef PLAT_ppc32_linux
 #undef PLAT_ppc64_linux

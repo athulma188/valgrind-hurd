@@ -30,8 +30,12 @@
 
    The GNU General Public License is contained in the file COPYING.
 */
-
+/* Athul.M.A
 #if defined(VGO_linux) || defined(VGO_darwin)
+*/
+
+#if defined(VGO_linux) || defined(VGO_darwin)|| defined(VGO_gnu)
+//end
 
 /* *************************************************************
    DO NOT INCLUDE ANY OTHER FILES HERE.
@@ -42,6 +46,9 @@
 #include "priv_aspacemgr.h"
 #include "config.h"
 
+// Athul.M.A
+#include "pub_core_libcassert.h"
+//end
 
 /* Note: many of the exported functions implemented below are
    described more fully in comments in pub_core_aspacemgr.h.
@@ -3684,6 +3691,20 @@ Bool VG_(get_changed_segments)(
 /*------END-procmaps-parser-for-Darwin---------------------------*/
 
 #endif // defined(VGO_linux) || defined(VGO_darwin)
+
+// Athul.M.A
+
+static void parse_procselfmaps (
+      void (*record_mapping)( Addr addr, SizeT len, UInt prot,
+                              ULong dev, ULong ino, Off64T offset, 
+                              const HChar* filename ),
+      void (*record_gap)( Addr addr, SizeT len )
+   )
+{
+    vg_assert(0);
+}
+//end
+
 
 /*--------------------------------------------------------------------*/
 /*--- end                                                          ---*/

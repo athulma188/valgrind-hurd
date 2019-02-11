@@ -163,7 +163,6 @@ SysRes VG_(mk_SysRes_Success) ( UWord res ) {
    return r;
 }
 
-
 #elif defined(VGO_darwin)
 
 /* Darwin: Some syscalls return a double-word result. */
@@ -254,8 +253,39 @@ SysRes VG_(mk_SysRes_Success) ( UWord res ) {
 
 
 #elif defined(VGO_gnu)
+/* Athul.M.A
 static void efunction()
 { vg_assert(0); }
+*/
+SysRes VG_(mk_SysRes_x86_gnu) ( Int val ) {
+   SysRes res;
+   // res._valEx   = 0;
+   res._isError = val >= -4095 && val <= -1;
+   if (res._isError) {
+      res._val = (UInt)(-val);
+   } else {
+      res._val = (UInt)val;
+   }
+   return res;
+}
+
+/* Generic constructors. */
+SysRes VG_(mk_SysRes_Error) ( UWord err ) {
+   SysRes r;
+   //r._valEx   = 0;
+   r._isError = True;
+   r._val     = err;
+   return r;
+}
+
+SysRes VG_(mk_SysRes_Success) ( UWord res ) {
+   SysRes r;
+   //r._valEx   = 0;
+   r._isError = False;
+   r._val     = res;
+   return r;
+}
+// end
 
 #else
 #  error "Unknown OS"
