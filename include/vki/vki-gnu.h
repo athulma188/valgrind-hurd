@@ -30,6 +30,11 @@
 #ifndef __VKI_GNU_H
 #define __VKI_GNU_H
 
+//Athul.M.A
+#define VKI_SCM_RIGHTS 0x01
+typedef unsigned int vki_u32;
+
+//end
 
 #include <stdint.h>
 
@@ -58,7 +63,12 @@
 #define vki_off_t off_t
 #define vki_blkcnt_t blkcnt_t
 #define vki_blksize_t blksize_t
-//#define vki_size_t size_t
+
+//Athul.M.A
+// //#define vki_size_t size_t
+#define vki_size_t size_t
+//end
+
 #define vki_ssize_t ssize_t
 #define vki_pid_t pid_t
 //#define vki_socklen_t socklen_t
@@ -601,6 +611,7 @@ typedef  struct vki_sigaction_base  vki_sigaction_fromK_t;
 #define	VKI_ENOSTR ENOSTR
 #define	VKI_EOVERFLOW EOVERFLOW
 #define	VKI_EPROTO EPROTO
+
 #define	VKI_ETIME ETIME
 #define	VKI_ECANCELED ECANCELED
 
@@ -655,8 +666,10 @@ typedef  struct vki_sigaction_base  vki_sigaction_fromK_t;
 #define	VKI_IPC_RMID	IPC_RMID
 #define	VKI_IPC_SET		IPC_SET
 #define	VKI_IPC_STAT	IPC_STAT
-#define	VKI_IPC_INFO	IPC_INFO
-
+//Athul.M.A
+// #define	VKI_IPC_INFO	IPC_INFO
+#define	VKI_IPC_INFO    3
+//end
 #define vki_key_t key_t
 #define vki_ipc_perm ipc_perm
 
@@ -673,9 +686,73 @@ typedef  struct vki_sigaction_base  vki_sigaction_fromK_t;
 
 #define vki_sembuf sembuf
 #define vki_semid_ds semid_ds
-//#define vki_semun semun
+//Athul.M.A
+// //#define vki_semun semun
+struct  vki_seminfo
+{
+  int semmap;
+  int semmni;
+  int semmns;
+  int semmnu;
+  int semmsl;
+  int semopm;
+  int semume;
+  int semusz;
+  int semvmx;
+  int semaem;
+};
+union semun
+   {
+     int val;
+     struct vki_semid_ds *buf;
+     unsigned short int *array;
+     struct vki_seminfo *__buf;
+   };
+#define vki_semun semun
+#define VKI_SEM_INFO SEM_INFO
+//struct timezone
+//  {
+//    int tz_minuteswest;		/* Minutes west of GMT.  */
+//    int tz_dsttime;		/* Nonzero if DST is ever in effect.  */
+//  };
+#define vki_timezone timezone
+struct utsname{
+    char sysname[1024];
+    char nodename[1024];
+    char release[1024];
+    char version[1024];
+    char machine[1024];
+    char domainname[1024];
+};
 
+#define vki_shminfo	shminfo
+struct vki_shminfo64 {
+	unsigned long	shmmax;
+	unsigned long	shmmin;
+	unsigned long	shmmni;
+	unsigned long	shmseg;
+	unsigned long	shmall;
+	unsigned long	__unused1;
+	unsigned long	__unused2;
+	unsigned long	__unused3;
+	unsigned long	__unused4;
+};
+#include <i386-gnu/sys/statfs.h>
+#define vki_statfs statfs
+#define vki_itimerval itimerval
 
+//#include <i386-gnu/sys/ioctl.h>
+//#define _VKI_IOC_NONE	_IOC_NONE
+//#define _VKI_IOC_WRITE	_IOC_WRITE
+//#define _VKI_IOC_READ	_IOC_READ
+#define _VKI_IOC_NONE	0U
+#define _VKI_IOC_WRITE	1U
+#define _VKI_IOC_READ	2U
+#define VKI_CMSG_DATA(cmsg) CMSG_DATA(cmsg) 
+#define VKI_CMSG_NXTHDR(mhdr, cmsg) CMSG_NXTHDR(mhdr, cmsg)
+#define VKI_CMSG_FIRSTHDR(mhdr) CMSG_FIRSTHDR(mhdr)
+#define VKI_CMSG_ALIGN(len) CMSG_ALIGN(len)
+//end
 #include <semaphore.h>
 
 #define vki_sem_t sem_t
@@ -699,7 +776,7 @@ typedef  struct vki_sigaction_base  vki_sigaction_fromK_t;
 #define VKI_SHM_RDONLY	SHM_RDONLY
 #define VKI_SHM_RND		SHM_RND
 #define VKI_SHM_REMAP	SHM_REMAP
-#define VKI_SHMLBA		SHMLBA
+#define VKI_SHMLBA	VKI_PAGE_SIZE
 
 #define vki_shmid_ds shmid_ds
 
