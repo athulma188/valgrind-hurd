@@ -28,8 +28,11 @@
 
    The GNU General Public License is contained in the file COPYING.
 */
-
+/* Athul.M.A
 #if defined(VGO_linux) || defined(VGO_darwin)
+*/
+#if defined(VGO_linux) || defined(VGO_darwin)|| defined(VGO_gnu)
+//end
 
 #include "pub_core_basics.h"
 #include "pub_core_vki.h"
@@ -795,7 +798,10 @@ void VG_(init_preopened_fds)(void)
 
 #elif defined(VGO_darwin)
    init_preopened_fds_without_proc_self_fd();
-
+// Athul.M,A
+#elif defined(VGO_gnu)
+   vg_assert(0);
+//end
 #else
 #  error Unknown OS
 #endif
@@ -1594,12 +1600,17 @@ UInt get_sem_count( Int semid )
 
    arg.buf = &buf;
 
+// Athul.M.A
+#if !defined(VGO_gnu)
+ 
 #  ifdef __NR_semctl
    res = VG_(do_syscall4)(__NR_semctl, semid, 0, VKI_IPC_STAT, *(UWord *)&arg);
 #  else
    res = VG_(do_syscall5)(__NR_ipc, 3 /* IPCOP_semctl */, semid, 0,
                           VKI_IPC_STAT, (UWord)&arg);
 #  endif
+#endif
+   //end
    if (sr_isError(res))
       return 0;
 
@@ -1618,8 +1629,16 @@ ML_(generic_PRE_sys_semctl) ( ThreadId tid,
 #if defined(VKI_IPC_INFO)
    case VKI_IPC_INFO:
    case VKI_SEM_INFO:
+   /*Athul.M.A       
    case VKI_IPC_INFO|VKI_IPC_64:
    case VKI_SEM_INFO|VKI_IPC_64:
+   */
+#if defined(VKI_IPC_64)
+   case VKI_IPC_INFO|VKI_IPC_64:
+   case VKI_SEM_INFO|VKI_IPC_64:
+#endif
+   //end
+       
       PRE_MEM_WRITE( "semctl(IPC_INFO, arg.buf)",
                      (Addr)arg.buf, sizeof(struct vki_seminfo) );
       break;
@@ -1687,8 +1706,14 @@ ML_(generic_POST_sys_semctl) ( ThreadId tid,
 #if defined(VKI_IPC_INFO)
    case VKI_IPC_INFO:
    case VKI_SEM_INFO:
+   /*Athul.M.A       
    case VKI_IPC_INFO|VKI_IPC_64:
    case VKI_SEM_INFO|VKI_IPC_64:
+   */
+#if defined(VKI_IPC_64)
+   case VKI_IPC_INFO|VKI_IPC_64:
+   case VKI_SEM_INFO|VKI_IPC_64:
+#endif
       POST_MEM_WRITE( (Addr)arg.buf, sizeof(struct vki_seminfo) );
       break;
 #endif
@@ -1740,9 +1765,17 @@ SizeT get_shm_size ( Int shmid )
    SysRes __res = VG_(do_syscall3)(__NR_shmctl, shmid, VKI_IPC_STAT, (UWord)&buf);
 #  endif /* def VKI_IPC_64 */
 #else
+   // Athul.M.A
+#if defined(VGO_gnu)
+   struct vki_shmid_ds buf;
+SysRes __res ={0,0,0};
+   vg_assert(0);
+#else
+   //end
    struct vki_shmid_ds buf;
    SysRes __res = VG_(do_syscall5)(__NR_ipc, 24 /* IPCOP_shmctl */, shmid,
-                                 VKI_IPC_STAT, 0, (UWord)&buf);
+                            VKI_IPC_STAT, 0, (UWord)&buf);
+#endif 
 #endif
    if (sr_isError(__res))
       return 0;
@@ -1922,14 +1955,27 @@ ML_(generic_POST_sys_shmctl) ( ThreadId tid,
    case VKI_IPC_INFO:
       POST_MEM_WRITE( arg2, sizeof(struct vki_shminfo) );
       break;
+      //Athul.M.A
+      // case VKI_IPC_INFO|VKI_IPC_64:
+      // POST_MEM_WRITE( arg2, sizeof(struct vki_shminfo64) );
+      // break;
+#if defined(VKI_IPC_64)
    case VKI_IPC_INFO|VKI_IPC_64:
       POST_MEM_WRITE( arg2, sizeof(struct vki_shminfo64) );
       break;
 #endif
+      //end
+#endif
 
 #if defined(VKI_SHM_INFO)
    case VKI_SHM_INFO:
+   /* Athul.M.A    
    case VKI_SHM_INFO|VKI_IPC_64:
+   */
+#if defined(VKI_IPC_64)
+   case VKI_SHM_INFO|VKI_IPC_64:
+#endif
+   // end   
       POST_MEM_WRITE( arg2, sizeof(struct vki_shm_info) );
       break;
 #endif
@@ -2799,10 +2845,19 @@ PRE(sys_execve)
          for (cpp = envp; cpp && *cpp; cpp++)
             VG_(printf)("env: %s\n", *cpp);
    }
-
+   /*Athul.M.A
    SET_STATUS_from_SysRes( 
       VG_(do_syscall3)(__NR_execve, (UWord)path, (UWord)argv, (UWord)envp) 
    );
+   */
+#if !defined(VGO_gnu)
+SET_STATUS_from_SysRes( 
+      VG_(do_syscall3)(__NR_execve, (UWord)path, (UWord)argv, (UWord)envp) 
+   );
+#else
+   vg_assert(0);
+#endif
+   //end
 
    /* If we got here, then the execve failed.  We've already made way
       too much of a mess to continue, so we have to abort. */
@@ -3012,9 +3067,14 @@ PRE(sys_fork)
       the child without being interrupted. */
    VG_(sigfillset)(&mask);
    VG_(sigprocmask)(VKI_SIG_SETMASK, &mask, &fork_saved_mask);
-
+   //Athul.M.A
+   // SET_STATUS_from_SysRes( VG_(do_syscall0)(__NR_fork) );
+#if !defined(VGO_gnu)
    SET_STATUS_from_SysRes( VG_(do_syscall0)(__NR_fork) );
-
+#else
+   vg_assert(0);
+#endif
+   //end
    if (!SUCCESS) return;
 
 #if defined(VGO_linux)
@@ -3025,6 +3085,10 @@ PRE(sys_fork)
    // RES is the child's pid.  RESHI is 1 for child, 0 for parent.
    is_child = RESHI;
    child_pid = RES;
+   //Athul.M.A
+#elif defined(VGO_gnu)
+   vg_assert(0);
+   //end
 #else
 #  error Unknown OS
 #endif
@@ -3325,7 +3389,12 @@ PRE(sys_getuid)
 }
 
 void ML_(PRE_unknown_ioctl)(ThreadId tid, UWord request, UWord arg)
-{         
+{  
+    // Athul M A
+#if defined(VGO_gnu)
+    vg_assert(0);
+#else
+    // end
    /* We don't have any specific information on it, so
       try to do something reasonable based on direction and
       size bits.  The encoding scheme is described in
@@ -3366,6 +3435,9 @@ void ML_(PRE_unknown_ioctl)(ThreadId tid, UWord request, UWord arg)
       if ((dir & _VKI_IOC_READ) && size > 0)
          PRE_MEM_WRITE( "ioctl(generic)", arg, size);
    }
+    //Athul M A
+#endif
+    //end
 }
 
 void ML_(POST_unknown_ioctl)(ThreadId tid, UInt res, UWord request, UWord arg)
@@ -3378,7 +3450,11 @@ void ML_(POST_unknown_ioctl)(ThreadId tid, UInt res, UWord request, UWord arg)
       According to Simon Hausmann, _IOC_READ means the kernel
       writes a value to the ioctl value passed from the user
       space and the other way around with _IOC_WRITE. */
-   
+    // Athul M A
+#if defined(VGO_gnu)
+    vg_assert(0);
+#else
+    // end   
    UInt dir  = _VKI_IOC_DIR(request);
    UInt size = _VKI_IOC_SIZE(request);
    if (size > 0 && (dir & _VKI_IOC_READ)
@@ -3387,8 +3463,11 @@ void ML_(POST_unknown_ioctl)(ThreadId tid, UInt res, UWord request, UWord arg)
    {
       POST_MEM_WRITE(arg, size);
    }
-}
 
+   // Athul M A
+#endif
+   //end
+}
 /* 
    If we're sending a SIGKILL to one of our own threads, then simulate
    it rather than really sending the signal, so that the target thread
