@@ -926,11 +926,19 @@ extern void my_sigreturn(void);
 #  error Unknown platform
 #endif
 
+/* Athul.M.A
 #define MY_SIGRETURN(name)  _MY_SIGRETURN(name)
 asm(
    MY_SIGRETURN(__NR_rt_sigreturn)
 );
-
+*/
+#if defined(VGO_gnu)
+#else
+asm(
+   MY_SIGRETURN(__NR_rt_sigreturn)
+)
+#endif
+// end
 
 static void handle_SCSS_change ( Bool force_update )
 {
