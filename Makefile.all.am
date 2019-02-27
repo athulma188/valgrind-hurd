@@ -105,7 +105,6 @@ AM_CFLAGS_PIC = -dynamic -O -g -fno-omit-frame-pointer -fno-strict-aliasing \
 else
 AM_CFLAGS_PIC = -fpic -O -g -fno-omit-frame-pointer -fno-strict-aliasing \
 		-fno-builtin
-# Athul.M.A inserted shared flag
 endif
 
 
