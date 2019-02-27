@@ -702,3 +702,31 @@ void VG_(make_coredump)(ThreadId tid, const vki_siginfo_t *si, UInt max_size)
 /*--------------------------------------------------------------------*/
 /*--- end                                                          ---*/
 /*--------------------------------------------------------------------*/
+
+// Athul.M.A
+#if defined(VGO_gnu)
+
+#include "pub_core_basics.h"
+#include "pub_core_vki.h"
+#include "pub_core_aspacehl.h"
+#include "pub_core_aspacemgr.h"
+#include "pub_core_libcbase.h"
+#include "pub_core_machine.h"
+#include "pub_core_coredump.h"
+#include "pub_core_libcprint.h"
+#include "pub_core_libcfile.h"    // VG_(close) et al
+#include "pub_core_libcproc.h"    // VG_(geteuid), VG_(getegid)
+#include "pub_core_libcassert.h"  // VG_(exit), vg_assert
+#include "pub_core_mallocfree.h"  // VG_(malloc), VG_(free)
+#include "pub_core_libcsetjmp.h"  // to keep _threadstate.h happy
+#include "pub_core_threadstate.h"
+#include "pub_core_xarray.h"
+#include "pub_core_clientstate.h"
+#include "pub_core_options.h"
+void VG_(make_coredump)(ThreadId tid, const vki_siginfo_t *si, UInt max_size)
+{
+    vg_assert(0);
+}
+#endif
+
+//end
