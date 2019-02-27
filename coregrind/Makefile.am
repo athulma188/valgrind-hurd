@@ -11,12 +11,12 @@ include $(top_srcdir)/Makefile.all.am
 
 AM_CPPFLAGS_@VGCONF_PLATFORM_PRI_CAPS@ += \
 	-I$(top_srcdir)/coregrind \
-	-DVG_LIBDIR="\"$(pkglibdir)"\" \
+	-DVG_LIBDIR="\"$(pkglibdir)\"" \
 	-DVG_PLATFORM="\"@VGCONF_ARCH_PRI@-@VGCONF_OS@\""
 if VGCONF_HAVE_PLATFORM_SEC
 AM_CPPFLAGS_@VGCONF_PLATFORM_SEC_CAPS@ += \
 	-I$(top_srcdir)/coregrind \
-	-DVG_LIBDIR="\"$(pkglibdir)"\" \
+	-DVG_LIBDIR="\"$(pkglibdir)\"" \
 	-DVG_PLATFORM="\"@VGCONF_ARCH_SEC@-@VGCONF_OS@\""
 endif
 
@@ -80,7 +80,7 @@ vgdb_LDFLAGS   += -Wl,-read_only_relocs -Wl,suppress
 endif
 
 #----------------------------------------------------------------------------
-# Darwin Mach stuff
+ # Darwin Mach stuff
 #----------------------------------------------------------------------------
 
 # Mach RPC interface definitions
@@ -255,7 +255,9 @@ endif
 # Athul.M.A
 # Added m_sigframe/sigframe-x86-gnu.c 
 # Added m_syswrap/syscall-x86-gnu.S
-# Added m_dispatch/dispatch-x86-gnu.S \
+# Added m_dispatch/dispatch-x86-gnu.S
+# Added m_syswrap/syswrap-x86-gnu.c
+# Added m_syswrap/syswrap-gnu.c 
 COREGRIND_SOURCES_COMMON = \
 	m_cache.c \
 	m_commandline.c \
@@ -378,15 +380,17 @@ COREGRIND_SOURCES_COMMON = \
 	m_syswrap/syscall-s390x-linux.S \
 	m_syswrap/syscall-mips32-linux.S \
 	m_syswrap/syscall-mips64-linux.S \
-	m_syswrap/syscall-x86-gnu.S
+	m_syswrap/syscall-x86-gnu.S \
 	m_syswrap/syscall-x86-darwin.S \
 	m_syswrap/syscall-amd64-darwin.S \
 	m_syswrap/syswrap-main.c \
 	m_syswrap/syswrap-generic.c \
 	m_syswrap/syswrap-linux.c \
+	m_syswrap/syswrap-gnu.c \
 	m_syswrap/syswrap-linux-variants.c \
 	m_syswrap/syswrap-darwin.c \
 	m_syswrap/syswrap-x86-linux.c \
+	m_syswrap/syswrap-x86-gnu.c \
 	m_syswrap/syswrap-amd64-linux.c \
 	m_syswrap/syswrap-ppc32-linux.c \
 	m_syswrap/syswrap-ppc64-linux.c \
